@@ -1,0 +1,27 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    font-family: 'Inter', 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+  }
+}
+
+@layer components {
+  .sidebar-tab {
+    @apply flex items-center px-4 py-3 text-gray-700 hover:bg-gray-100 hover:text-primary-600 cursor-pointer transition-all duration-200 border-l-4 border-transparent hover:border-primary-500;
+  }
+  
+  .sidebar-tab.active {
+    @apply bg-primary-50 text-primary-700 border-primary-500 font-medium;
+  }
+  
+  .kpi-card {
+    @apply bg-white rounded-2xl shadow-md p-6 border border-gray-100 hover:shadow-lg transition-shadow duration-200;
+  }
+  
+  .chart-container {
+    @apply bg-white rounded-2xl shadow-md p-6 border border-gray-100;
+  }
+}
