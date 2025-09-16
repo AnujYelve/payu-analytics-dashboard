@@ -1,0 +1,16 @@
+# Commands to run after creating GitHub repository
+# Replace 'yourusername' with your actual GitHub username
+
+# Add the remote repository
+git remote add origin https://github.com/yourusername/payu-analytics-dashboard.git
+
+# Push to GitHub
+git branch -M main
+git push -u origin main
+
+# After pushing to GitHub, go to vercel.com and:
+# 1. Sign in with GitHub
+# 2. Click "New Project"  
+# 3. Import your payu-analytics-dashboard repository
+# 4. Configure build settings (Vite should be auto-detected)
+# 5. Deploy!
