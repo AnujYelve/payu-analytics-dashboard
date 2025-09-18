@@ -3,6 +3,7 @@ import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContaine
 import KPICard from './KPICard';
 import { Users, UserCheck, Heart, Star, TrendingUp, UserX } from 'lucide-react';
 import { formatCurrency, formatPercentage, formatNumber } from '../utils/dataParser';
+import useWindowSize from "../hooks/useWindowSize";
 
 
 
@@ -31,6 +32,10 @@ const CustomerSentiments = ({ data }) => {
     sentimentScore: sentimentScore,
     monthlyDataLength: monthlyData?.length || 0
   });
+
+  const [width, height] = useWindowSize(); 
+// Ye line kaam sirf ye hai ki jab bhi screen size change hoga, 
+// component re-render ho jaye aur ResponsiveContainer ko fresh size mile.
 
   const npsData = [
     { name: 'NPS Score', value: nps, fill: '#10b981' }
@@ -226,7 +231,7 @@ const CustomerSentiments = ({ data }) => {
               </div>
             </div>
           ) : (
-            <ResponsiveContainer width="100%" height={280}>
+            <ResponsiveContainer key={width} width="100%" height={280}>
               <LineChart data={monthlyData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
