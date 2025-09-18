@@ -1,5 +1,6 @@
 import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, RadialBarChart, RadialBar, PieChart, Pie, Cell, Legend } from 'recharts';
+import SafeResponsiveContainer from './SafeResponsiveContainer';
 import KPICard from './KPICard';
 import { Users, UserCheck, Heart, Star, TrendingUp, UserX } from 'lucide-react';
 import { formatCurrency, formatPercentage, formatNumber } from '../utils/dataParser';
@@ -157,7 +158,7 @@ const CustomerSentiments = ({ data }) => {
               </div>
             </div>
           ) : (
-            <ResponsiveContainer width="100%" height={300}>
+            <SafeResponsiveContainer height={300}>
               <LineChart data={[...topSegments].sort((a, b) => a.tpv - b.tpv)}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" angle={-20} textAnchor="end" height={50} />
@@ -174,14 +175,14 @@ const CustomerSentiments = ({ data }) => {
                   activeDot={{ r: 7 }}
                 />
               </LineChart>
-            </ResponsiveContainer>
+            </SafeResponsiveContainer>
           )}
         </div>
 
         {/* NPS Score Gauge */}
         <div className="chart-container">
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Net Promoter Score</h4>
-          <ResponsiveContainer width="100%" height={280}>
+          <SafeResponsiveContainer height={280}>
             <RadialBarChart cx="50%" cy="50%" innerRadius="60%" outerRadius="90%" data={npsData}>
               <RadialBar
                 dataKey="value"
@@ -195,13 +196,13 @@ const CustomerSentiments = ({ data }) => {
                 NPS Score
               </text>
             </RadialBarChart>
-          </ResponsiveContainer>
+          </SafeResponsiveContainer>
         </div>
 
         {/* Customer Sentiment Distribution */}
         <div className="chart-container">
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Customer Sentiment Score</h4>
-          <ResponsiveContainer width="100%" height={280}>
+          <SafeResponsiveContainer height={280}>
             <RadialBarChart cx="50%" cy="50%" innerRadius="60%" outerRadius="90%" data={sentimentData}>
               <RadialBar
                 dataKey="value"
@@ -215,7 +216,7 @@ const CustomerSentiments = ({ data }) => {
                 out of 5
               </text>
             </RadialBarChart>
-          </ResponsiveContainer>
+          </SafeResponsiveContainer>
         </div>
 
         {/* Monthly Transaction Volume */}
@@ -231,7 +232,7 @@ const CustomerSentiments = ({ data }) => {
               </div>
             </div>
           ) : (
-            <ResponsiveContainer key={width} width="100%" height={280}>
+            <SafeResponsiveContainer height={280}>
               <LineChart data={monthlyData}>
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="month" />
@@ -245,7 +246,7 @@ const CustomerSentiments = ({ data }) => {
                   dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 4 }}
                 />
               </LineChart>
-            </ResponsiveContainer>
+            </SafeResponsiveContainer>
           )}
         </div>
 

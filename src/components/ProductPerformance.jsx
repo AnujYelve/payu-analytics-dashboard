@@ -1,5 +1,6 @@
 import React from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
+import SafeResponsiveContainer from './SafeResponsiveContainer';
 import KPICard from './KPICard';
 import EnhancedPieChart from './EnhancedPieChart';
 import { DollarSign, CreditCard, TrendingUp, Clock, RefreshCw, AlertTriangle } from 'lucide-react';
@@ -215,8 +216,8 @@ const ProductPerformance = ({ data }) => {
                  <p className="text-sm text-gray-400">Upload a file with date/timestamp data</p>
                </div>
              </div>
-           ) : (
-             <ResponsiveContainer width="100%" height={280}>
+          ) : (
+            <SafeResponsiveContainer height={280}>
                <LineChart data={normalizedMonthly}>
                  <CartesianGrid strokeDasharray="3 3" />
                  <XAxis dataKey="month" />
@@ -230,7 +231,7 @@ const ProductPerformance = ({ data }) => {
                    dot={renderTPVDot}
                  />
                </LineChart>
-             </ResponsiveContainer>
+             </SafeResponsiveContainer>
            )}
          </div>
 
@@ -253,7 +254,7 @@ const ProductPerformance = ({ data }) => {
                </div>
              </div>
            ) : (
-             <ResponsiveContainer width="100%" height={280}>
+            <SafeResponsiveContainer height={280}>
                <BarChart data={revenueData}>
                  <CartesianGrid strokeDasharray="3 3" />
                  <XAxis dataKey="name" />
@@ -261,7 +262,7 @@ const ProductPerformance = ({ data }) => {
                  <Tooltip formatter={(value) => formatCurrency(value)} />
                  <Bar dataKey="value" fill="#14b8a6" radius={[4, 4, 0, 0]} />
                </BarChart>
-             </ResponsiveContainer>
+            </SafeResponsiveContainer>
            )}
          </div>
 
@@ -277,7 +278,7 @@ const ProductPerformance = ({ data }) => {
                </div>
              </div>
            ) : (
-             <ResponsiveContainer width="100%" height={280}>
+            <SafeResponsiveContainer height={280}>
                <LineChart data={normalizedMonthly}>
                  <CartesianGrid strokeDasharray="3 3" />
                  <XAxis dataKey="month" />
@@ -291,7 +292,7 @@ const ProductPerformance = ({ data }) => {
                    dot={renderRevenueDot}
                  />
                </LineChart>
-             </ResponsiveContainer>
+            </SafeResponsiveContainer>
            )}
          </div>
       </div>

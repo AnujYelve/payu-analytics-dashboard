@@ -1,5 +1,6 @@
 import React from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadialBarChart, RadialBar, Cell } from 'recharts';
+import SafeResponsiveContainer from './SafeResponsiveContainer';
 import KPICard from './KPICard';
 import { Shield, Server, CheckCircle, AlertTriangle, Activity } from 'lucide-react';
 import { formatPercentage, formatNumber } from '../utils/dataParser';
@@ -131,7 +132,7 @@ const MarketTrends = ({ data }) => {
         {/* Fraud Rate Trend */}
         <div className="chart-container">
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Fraud Rate Trend</h4>
-          <ResponsiveContainer width="100%" height={280}>
+          <SafeResponsiveContainer height={280}>
             <LineChart data={riskTrendData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
@@ -145,13 +146,13 @@ const MarketTrends = ({ data }) => {
                 dot={{ fill: '#ef4444', strokeWidth: 2, r: 4 }}
               />
             </LineChart>
-          </ResponsiveContainer>
+          </SafeResponsiveContainer>
         </div>
 
         {/* System Uptime Gauge */}
         <div className="chart-container">
           <h4 className="text-lg font-semibold text-gray-900 mb-4">System Uptime</h4>
-          <ResponsiveContainer width="100%" height={280}>
+          <SafeResponsiveContainer height={280}>
             <RadialBarChart cx="50%" cy="50%" innerRadius="60%" outerRadius="90%" data={uptimeData}>
               <RadialBar
                 dataKey="value"
@@ -165,7 +166,7 @@ const MarketTrends = ({ data }) => {
                 Uptime
               </text>
             </RadialBarChart>
-          </ResponsiveContainer>
+          </SafeResponsiveContainer>
         </div>
 
         {/* Dispute Resolution Trend removed */}
@@ -173,7 +174,7 @@ const MarketTrends = ({ data }) => {
         {/* Compliance Scores */}
         <div className="chart-container">
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Compliance Scores by Category</h4>
-          <ResponsiveContainer width="100%" height={280}>
+          <SafeResponsiveContainer height={280}>
             <BarChart data={complianceData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
@@ -185,7 +186,7 @@ const MarketTrends = ({ data }) => {
                 ))}
               </Bar>
             </BarChart>
-          </ResponsiveContainer>
+          </SafeResponsiveContainer>
         </div>
       </div>
 
