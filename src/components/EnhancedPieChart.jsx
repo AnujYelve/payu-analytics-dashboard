@@ -1,6 +1,5 @@
 import React from 'react';
 import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip } from 'recharts';
-import SafeResponsiveContainer from './SafeResponsiveContainer';
 
 const EnhancedPieChart = ({ data, title, colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#06B6D4', '#84CC16', '#F97316'] }) => {
   if (!data || Object.keys(data).length === 0) {
@@ -90,8 +89,8 @@ const EnhancedPieChart = ({ data, title, colors = ['#3B82F6', '#10B981', '#F59E0
       <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
       
       <div style={{ height: dynamicHeight }}>
-        {/* Wrap with SafeResponsiveContainer to avoid initial 0-size on mobile */}
-        <SafeResponsiveContainer height={dynamicHeight}>
+        {/* ResponsiveContainer makes the chart scale to parent width */}
+        <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
               data={chartData}
@@ -110,7 +109,7 @@ const EnhancedPieChart = ({ data, title, colors = ['#3B82F6', '#10B981', '#F59E0
             <Tooltip content={<CustomTooltip />} />
             <Legend content={renderLegend} />
           </PieChart>
-        </SafeResponsiveContainer>
+        </ResponsiveContainer>
       </div>
       
       <div className="mt-4 text-center text-sm text-gray-500">
