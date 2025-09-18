@@ -103,8 +103,9 @@ const ProductPerformance = ({ data }) => {
     <div className="space-y-6">
       {/* Business & Financial KPIs */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Business & Financial KPIs</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">Business & Financial KPIs</h3>
+        {/* grid collapses to 1 col on mobile, 2 on md, 4 on lg+ */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           <KPICard
             title="Total Payment Volume (Monthly)"
             value={formatCurrency(tpv.monthly)}
@@ -146,8 +147,8 @@ const ProductPerformance = ({ data }) => {
 
       {/* Transaction & Payment Metrics */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Transaction & Payment Metrics</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">Transaction & Payment Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           <KPICard
             title="Total Transactions"
             value={formatNumber(transactions.total)}
@@ -187,8 +188,8 @@ const ProductPerformance = ({ data }) => {
 
       {/* Risk Metrics */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Risk & Quality Metrics</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">Risk & Quality Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           <KPICard
             title="Chargeback Rate"
             value={formatPercentage(productPerformance.chargebackRate)}
@@ -202,9 +203,9 @@ const ProductPerformance = ({ data }) => {
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
          {/* Monthly TPV Trend */}
-         <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
+         <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-gray-100">
            <h4 className="text-lg font-semibold text-gray-900 mb-4">Monthly TPV Trend</h4>
            {!monthlyData || monthlyData.length === 0 ? (
              <div className="flex items-center justify-center h-64 text-gray-500">
@@ -215,7 +216,7 @@ const ProductPerformance = ({ data }) => {
                </div>
              </div>
            ) : (
-             <ResponsiveContainer width="100%" height={300}>
+             <ResponsiveContainer width="100%" height={280}>
                <LineChart data={normalizedMonthly}>
                  <CartesianGrid strokeDasharray="3 3" />
                  <XAxis dataKey="month" />
@@ -241,7 +242,7 @@ const ProductPerformance = ({ data }) => {
         />
 
          {/* Revenue by Business Unit */}
-         <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
+         <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-gray-100">
            <h4 className="text-lg font-semibold text-gray-900 mb-4">Revenue by Business Unit</h4>
            {!revenueData || revenueData.length === 0 ? (
              <div className="flex items-center justify-center h-64 text-gray-500">
@@ -252,7 +253,7 @@ const ProductPerformance = ({ data }) => {
                </div>
              </div>
            ) : (
-             <ResponsiveContainer width="100%" height={300}>
+             <ResponsiveContainer width="100%" height={280}>
                <BarChart data={revenueData}>
                  <CartesianGrid strokeDasharray="3 3" />
                  <XAxis dataKey="name" />
@@ -265,7 +266,7 @@ const ProductPerformance = ({ data }) => {
          </div>
 
          {/* Monthly Revenue Trend */}
-         <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
+         <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-gray-100">
            <h4 className="text-lg font-semibold text-gray-900 mb-4">Monthly Revenue Trend</h4>
            {!monthlyData || monthlyData.length === 0 ? (
              <div className="flex items-center justify-center h-64 text-gray-500">
@@ -276,7 +277,7 @@ const ProductPerformance = ({ data }) => {
                </div>
              </div>
            ) : (
-             <ResponsiveContainer width="100%" height={300}>
+             <ResponsiveContainer width="100%" height={280}>
                <LineChart data={normalizedMonthly}>
                  <CartesianGrid strokeDasharray="3 3" />
                  <XAxis dataKey="month" />

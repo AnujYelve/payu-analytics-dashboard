@@ -62,8 +62,8 @@ const CustomerSentiments = ({ data }) => {
     <div className="space-y-6">
       {/* Merchant KPIs */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Merchant Analytics</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">Merchant Analytics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           <KPICard
             title="Active Merchants"
             value={formatNumber(merchants.active)}
@@ -105,8 +105,8 @@ const CustomerSentiments = ({ data }) => {
 
       {/* Customer Experience KPIs */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Customer Experience</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">Customer Experience</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           <KPICard
             title="Customer Retention"
             value={formatPercentage(customerRetention)}
@@ -138,9 +138,9 @@ const CustomerSentiments = ({ data }) => {
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
          {/* Top Merchant Segments - simplified line chart */}
-         <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
+         <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-gray-100">
            <h4 className="text-lg font-semibold text-gray-900 mb-2">Top Merchant Segments by TPV (Easy View)</h4>
            <p className="text-sm text-gray-600 mb-4">Each dot is a segment. Higher dot = more money processed.</p>
            {!topSegments || topSegments.length === 0 ? (
@@ -176,7 +176,7 @@ const CustomerSentiments = ({ data }) => {
         {/* NPS Score Gauge */}
         <div className="chart-container">
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Net Promoter Score</h4>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={280}>
             <RadialBarChart cx="50%" cy="50%" innerRadius="60%" outerRadius="90%" data={npsData}>
               <RadialBar
                 dataKey="value"
@@ -196,7 +196,7 @@ const CustomerSentiments = ({ data }) => {
         {/* Customer Sentiment Distribution */}
         <div className="chart-container">
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Customer Sentiment Score</h4>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={280}>
             <RadialBarChart cx="50%" cy="50%" innerRadius="60%" outerRadius="90%" data={sentimentData}>
               <RadialBar
                 dataKey="value"
@@ -214,7 +214,7 @@ const CustomerSentiments = ({ data }) => {
         </div>
 
          {/* Monthly Transaction Volume */}
-         <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
+         <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-gray-100">
            <h4 className="text-lg font-semibold text-gray-900 mb-4">Monthly Transaction Volume</h4>
            {!monthlyData || monthlyData.length === 0 ? (
              <div className="flex items-center justify-center h-64 text-gray-500">
@@ -225,7 +225,7 @@ const CustomerSentiments = ({ data }) => {
                </div>
              </div>
            ) : (
-             <ResponsiveContainer width="100%" height={300}>
+             <ResponsiveContainer width="100%" height={280}>
                <LineChart data={monthlyData}>
                  <CartesianGrid strokeDasharray="3 3" />
                  <XAxis dataKey="month" />

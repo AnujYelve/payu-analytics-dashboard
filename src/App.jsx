@@ -57,6 +57,7 @@ function App() {
         uploadedFile={uploadedFile}
         onFileUpload={handleFileUpload}
         onClearFile={handleClearFile}
+        onTabChange={handleTabChange}
         dashboardData={dashboardData}
       />
       

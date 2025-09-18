@@ -33,29 +33,30 @@ const FileUpload = ({ onFileUpload, uploadedFile, onClearFile }) => {
   };
 
   return (
-    <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
+    <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-gray-100">
       <h2 className="text-xl font-semibold text-gray-900 mb-4">Data Upload</h2>
       
       {!uploadedFile ? (
         <div
           onClick={handleClick}
-          className="border-2 border-dashed border-gray-300 rounded-xl p-8 text-center cursor-pointer hover:border-primary-400 hover:bg-primary-50 transition-colors duration-200"
+          // Reduce padding on small screens to avoid overflow
+          className="border-2 border-dashed border-gray-300 rounded-xl p-6 sm:p-8 text-center cursor-pointer hover:border-primary-400 hover:bg-primary-50 transition-colors duration-200"
         >
-          <Upload className="w-12 h-12 text-gray-400 mx-auto mb-4" />
+          <Upload className="w-10 h-10 sm:w-12 sm:h-12 text-gray-400 mx-auto mb-4" />
           <p className="text-lg font-medium text-gray-700 mb-2">
             Upload your spreadsheet
           </p>
           <p className="text-sm text-gray-500 mb-4">
             Supports Excel (.xlsx, .xls) and CSV files
           </p>
-          <button className="bg-primary-600 text-white px-6 py-2 rounded-lg hover:bg-primary-700 transition-colors duration-200">
+          <button className="bg-primary-600 text-white px-4 sm:px-6 py-2 rounded-lg hover:bg-primary-700 transition-colors duration-200">
             Choose File
           </button>
         </div>
       ) : (
-        <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-xl">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 p-4 bg-green-50 border border-green-200 rounded-xl">
           <div className="flex items-center">
-            <FileSpreadsheet className="w-8 h-8 text-green-600 mr-3" />
+            <FileSpreadsheet className="w-7 h-7 sm:w-8 sm:h-8 text-green-600 mr-3" />
             <div>
               <p className="font-medium text-green-800">{uploadedFile.name}</p>
               <p className="text-sm text-green-600">

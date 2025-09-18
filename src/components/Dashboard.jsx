@@ -9,6 +9,7 @@ const Dashboard = ({
   uploadedFile, 
   onFileUpload, 
   onClearFile, 
+  onTabChange,
   dashboardData 
 }) => {
   const renderTabContent = () => {
@@ -49,7 +50,8 @@ const Dashboard = ({
   };
 
   return (
-    <div className="ml-80 min-h-screen bg-gray-50">
+    // On mobile, remove left margin (since sidebar is hidden). From md+, keep space for the fixed sidebar.
+    <div className="md:ml-80 min-h-screen bg-gray-50">
       <div className="p-6">
         {/* Header */}
         <div className="mb-6">
@@ -59,6 +61,25 @@ const Dashboard = ({
           <p className="text-gray-600">
             Real-time insights and analytics for your fintech operations
           </p>
+        </div>
+
+        {/* Mobile Tab Switcher (visible only on small screens) */}
+        <div className="md:hidden mb-6">
+          <div className="grid grid-cols-3 gap-2">
+            {[
+              { id: 'product-performance', label: 'Products' },
+              { id: 'customer-sentiments', label: 'Customers' },
+              { id: 'market-trends', label: 'Market' },
+            ].map(tab => (
+              <button
+                key={tab.id}
+                onClick={() => onTabChange && onTabChange(tab.id)}
+                className={`px-3 py-2 rounded-lg text-sm border ${activeTab === tab.id ? 'bg-primary-50 text-primary-700 border-primary-200' : 'bg-white text-gray-700 border-gray-200'}`}
+              >
+                {tab.label}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* File Upload Section */}

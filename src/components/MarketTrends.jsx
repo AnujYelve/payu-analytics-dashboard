@@ -66,8 +66,8 @@ const MarketTrends = ({ data }) => {
     <div className="space-y-6">
       {/* Risk & Compliance KPIs */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">Risk & Compliance Metrics</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">Risk & Compliance Metrics</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           <KPICard
             title="Fraud Rate"
             value={formatPercentage(fraudRate)}
@@ -101,8 +101,8 @@ const MarketTrends = ({ data }) => {
 
       {/* System Performance */}
       <div>
-        <h3 className="text-lg font-semibold text-gray-900 mb-4">System Performance</h3>
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <h3 className="text-base sm:text-lg font-semibold text-gray-900 mb-4">System Performance</h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
           {systemMetrics.map((metric, index) => {
             const Icon = metric.icon;
             const statusColors = {
@@ -127,11 +127,11 @@ const MarketTrends = ({ data }) => {
       </div>
 
       {/* Charts */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
         {/* Fraud Rate Trend */}
         <div className="chart-container">
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Fraud Rate Trend</h4>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={280}>
             <LineChart data={riskTrendData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="month" />
@@ -151,7 +151,7 @@ const MarketTrends = ({ data }) => {
         {/* System Uptime Gauge */}
         <div className="chart-container">
           <h4 className="text-lg font-semibold text-gray-900 mb-4">System Uptime</h4>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={280}>
             <RadialBarChart cx="50%" cy="50%" innerRadius="60%" outerRadius="90%" data={uptimeData}>
               <RadialBar
                 dataKey="value"
@@ -173,7 +173,7 @@ const MarketTrends = ({ data }) => {
         {/* Compliance Scores */}
         <div className="chart-container">
           <h4 className="text-lg font-semibold text-gray-900 mb-4">Compliance Scores by Category</h4>
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer width="100%" height={280}>
             <BarChart data={complianceData}>
               <CartesianGrid strokeDasharray="3 3" />
               <XAxis dataKey="name" />
@@ -192,7 +192,7 @@ const MarketTrends = ({ data }) => {
       {/* Risk Management Dashboard */}
       <div className="chart-container">
         <h4 className="text-lg font-semibold text-gray-900 mb-4">Risk Management Overview</h4>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6">
           <div className="text-center p-4">
             <div className="text-3xl font-bold text-green-600 mb-2">Low</div>
             <div className="text-sm text-gray-600">Overall Risk Level</div>

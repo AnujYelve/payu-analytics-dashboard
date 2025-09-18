@@ -31,7 +31,8 @@ const EnhancedPieChart = ({ data, title, colors = ['#3B82F6', '#10B981', '#F59E0
   const THRESHOLD = 5;
   const significantCount = chartData.filter(it => ((it.value || 0) / (total || 1)) * 100 > THRESHOLD).length;
   const estimatedLegendRows = Math.max(1, Math.ceil(significantCount / 3));
-  const dynamicHeight = Math.max(320, 240 + estimatedLegendRows * 32);
+  // Make chart taller on larger screens, compact on mobile
+  const dynamicHeight = Math.max(280, 220 + estimatedLegendRows * 32);
 
   // Custom label function to show percentages inside slices
   const renderLabel = (entry) => {
@@ -88,6 +89,7 @@ const EnhancedPieChart = ({ data, title, colors = ['#3B82F6', '#10B981', '#F59E0
       <h3 className="text-lg font-semibold text-gray-900 mb-4">{title}</h3>
       
       <div style={{ height: dynamicHeight }}>
+        {/* ResponsiveContainer makes the chart scale to parent width */}
         <ResponsiveContainer width="100%" height="100%">
           <PieChart>
             <Pie
@@ -95,8 +97,8 @@ const EnhancedPieChart = ({ data, title, colors = ['#3B82F6', '#10B981', '#F59E0
               cx="50%"
               cy="50%"
               labelLine={false}
-              label={renderLabel}
-              outerRadius={80}
+              // Slightly reduce radius so labels/legend don't overflow on mobile
+              outerRadius={50}
               fill="#8884d8"
               dataKey="value"
             >
