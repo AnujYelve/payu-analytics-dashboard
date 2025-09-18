@@ -139,39 +139,39 @@ const CustomerSentiments = ({ data }) => {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
-         {/* Top Merchant Segments - simplified line chart */}
-         <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-gray-100">
-           <h4 className="text-lg font-semibold text-gray-900 mb-2">Top Merchant Segments by TPV (Easy View)</h4>
-           <p className="text-sm text-gray-600 mb-4">Each dot is a segment. Higher dot = more money processed.</p>
-           {!topSegments || topSegments.length === 0 ? (
-             <div className="flex items-center justify-center h-64 text-gray-500">
-               <div className="text-center">
-                 <div className="text-4xl mb-2">📊</div>
-                 <p>No merchant segment data available</p>
-                 <p className="text-sm text-gray-400">Upload a file with merchant categories</p>
-               </div>
-             </div>
-           ) : (
-             <ResponsiveContainer width="100%" height={300}>
-               <LineChart data={[...topSegments].sort((a, b) => a.tpv - b.tpv)}>
-                 <CartesianGrid strokeDasharray="3 3" />
-                 <XAxis dataKey="name" angle={-20} textAnchor="end" height={50} />
-                 <YAxis tickFormatter={(value) => formatCurrency(value)} />
-                 <Tooltip formatter={(value) => formatCurrency(value)} />
-                 <Legend />
-                 <Line
-                   type="monotone"
-                   name="TPV"
-                   dataKey="tpv"
-                   stroke="#3b82f6"
-                   strokeWidth={3}
-                   dot={renderSegmentDot}
-                   activeDot={{ r: 7 }}
-                 />
-               </LineChart>
-             </ResponsiveContainer>
-           )}
-         </div>
+        {/* Top Merchant Segments - simplified line chart */}
+        <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-gray-100">
+          <h4 className="text-lg font-semibold text-gray-900 mb-2">Top Merchant Segments by TPV (Easy View)</h4>
+          <p className="text-sm text-gray-600 mb-4">Each dot is a segment. Higher dot = more money processed.</p>
+          {!topSegments || topSegments.length === 0 ? (
+            <div className="flex items-center justify-center h-64 text-gray-500">
+              <div className="text-center">
+                <div className="text-4xl mb-2">📊</div>
+                <p>No merchant segment data available</p>
+                <p className="text-sm text-gray-400">Upload a file with merchant categories</p>
+              </div>
+            </div>
+          ) : (
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={[...topSegments].sort((a, b) => a.tpv - b.tpv)}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" angle={-20} textAnchor="end" height={50} />
+                <YAxis tickFormatter={(value) => formatCurrency(value)} />
+                <Tooltip formatter={(value) => formatCurrency(value)} />
+                <Legend />
+                <Line
+                  type="monotone"
+                  name="TPV"
+                  dataKey="tpv"
+                  stroke="#3b82f6"
+                  strokeWidth={3}
+                  dot={renderSegmentDot}
+                  activeDot={{ r: 7 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
+        </div>
 
         {/* NPS Score Gauge */}
         <div className="chart-container">
@@ -213,35 +213,37 @@ const CustomerSentiments = ({ data }) => {
           </ResponsiveContainer>
         </div>
 
-         {/* Monthly Transaction Volume */}
-         <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-gray-100">
-           <h4 className="text-lg font-semibold text-gray-900 mb-4">Monthly Transaction Volume</h4>
-           {!monthlyData || monthlyData.length === 0 ? (
-             <div className="flex items-center justify-center h-64 text-gray-500">
-               <div className="text-center">
-                 <div className="text-4xl mb-2">📈</div>
-                 <p>No monthly transaction data available</p>
-                 <p className="text-sm text-gray-400">Upload a file with date/timestamp data</p>
-               </div>
-             </div>
-           ) : (
-             <ResponsiveContainer width="100%" height={280}>
-               <LineChart data={monthlyData}>
-                 <CartesianGrid strokeDasharray="3 3" />
-                 <XAxis dataKey="month" />
-                 <YAxis tickFormatter={(value) => formatNumber(value)} />
-                 <Tooltip formatter={(value) => formatNumber(value)} />
-                 <Line 
-                   type="monotone" 
-                   dataKey="transactions" 
-                   stroke="#8b5cf6" 
-                   strokeWidth={3}
-                   dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 4 }}
-                 />
-               </LineChart>
-             </ResponsiveContainer>
-           )}
-         </div>
+        {/* Monthly Transaction Volume */}
+        {/* Monthly Transaction Volume */}
+        <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-gray-100 min-h-[320px]">
+          <h4 className="text-lg font-semibold text-gray-900 mb-4">Monthly Transaction Volume</h4>
+          {!monthlyData || monthlyData.length === 0 ? (
+            <div className="flex items-center justify-center h-64 text-gray-500">
+              <div className="text-center">
+                <div className="text-4xl mb-2">📈</div>
+                <p>No monthly transaction data available</p>
+                <p className="text-sm text-gray-400">Upload a file with date/timestamp data</p>
+              </div>
+            </div>
+          ) : (
+            <ResponsiveContainer width="100%" height={280}>
+              <LineChart data={monthlyData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis tickFormatter={(value) => formatNumber(value)} />
+                <Tooltip formatter={(value) => formatNumber(value)} />
+                <Line
+                  type="monotone"
+                  dataKey="transactions"
+                  stroke="#8b5cf6"
+                  strokeWidth={3}
+                  dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 4 }}
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          )}
+        </div>
+
       </div>
 
       {/* Merchant Segment Details */}
@@ -262,12 +264,12 @@ const CustomerSentiments = ({ data }) => {
                 const totalTPV = topSegments.reduce((sum, s) => sum + s.tpv, 0);
                 const share = (segment.tpv / totalTPV) * 100;
                 const growthRates = ['+15.2%', '+12.8%', '+9.5%', '+18.7%', '+22.1%'];
-                
+
                 return (
                   <tr key={segment.name} className="border-b border-gray-100">
                     <td className="py-3 px-4">
                       <div className="flex items-center">
-                        <div 
+                        <div
                           className="w-3 h-3 rounded-full mr-3"
                           style={{ backgroundColor: segmentColors[index] }}
                         ></div>

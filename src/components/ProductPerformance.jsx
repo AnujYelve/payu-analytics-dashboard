@@ -205,7 +205,7 @@ const ProductPerformance = ({ data }) => {
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-6">
          {/* Monthly TPV Trend */}
-         <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-gray-100">
+         <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-gray-100 min-h-[320px]">
            <h4 className="text-lg font-semibold text-gray-900 mb-4">Monthly TPV Trend</h4>
            {!monthlyData || monthlyData.length === 0 ? (
              <div className="flex items-center justify-center h-64 text-gray-500">
@@ -266,7 +266,7 @@ const ProductPerformance = ({ data }) => {
          </div>
 
          {/* Monthly Revenue Trend */}
-         <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-gray-100">
+         <div className="bg-white rounded-2xl shadow-md p-4 sm:p-6 border border-gray-100 min-h-[320px]">
            <h4 className="text-lg font-semibold text-gray-900 mb-4">Monthly Revenue Trend</h4>
            {!monthlyData || monthlyData.length === 0 ? (
              <div className="flex items-center justify-center h-64 text-gray-500">
