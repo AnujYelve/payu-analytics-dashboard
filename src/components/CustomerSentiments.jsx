@@ -1,5 +1,5 @@
 import React from 'react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, RadialBarChart, RadialBar, PieChart, Pie, Cell } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, RadialBarChart, RadialBar, PieChart, Pie, Cell, Legend } from 'recharts';
 import KPICard from './KPICard';
 import { Users, UserCheck, Heart, Star, TrendingUp, UserX } from 'lucide-react';
 import { formatCurrency, formatPercentage, formatNumber } from '../utils/dataParser';
@@ -42,8 +42,18 @@ const CustomerSentiments = ({ data }) => {
 
   const segmentColors = ['#3b82f6', '#14b8a6', '#f59e0b', '#ef4444', '#8b5cf6'];
 
+  // Custom dot renderer for low TPV values
+  const renderSegmentDot = (props) => {
+    const { cx, cy, payload, index } = props;
+    const max = Math.max(...(topSegments || []).map(s => s.tpv || 0), 0);
+    const low = (payload?.tpv || 0) < max * 0.2;
+    return (
+      <circle key={`seg-dot-${index}`} cx={cx} cy={cy} r={6} strokeWidth={2} stroke="#ffffff" fill={low ? '#ef4444' : '#3b82f6'} />
+    );
+  };
+
   // Graph explanations for developers (console only)
-  console.log('[Chart Explainer] Top Merchant Segments by TPV: Horizontal bar chart; each bar = TPV per segment; tooltip shows currency.');
+  console.log('[Chart Explainer] Top Merchant Segments by TPV: Simple line chart; each point = a merchant segment, positioned left-to-right by TPV; the higher the point, the more money moved. Tooltip shows the amount in rupees.');
   console.log('[Chart Explainer] Net Promoter Score: Radial gauge; center label shows NPS (from -100 to 100).');
   console.log('[Chart Explainer] Customer Sentiment Score: Radial gauge; center shows sentiment out of 5 converted to % radius.');
   console.log('[Chart Explainer] Monthly Transaction Volume: Line chart; Y-axis counts transactions, X-axis months; missing months as 0.');
@@ -129,9 +139,10 @@ const CustomerSentiments = ({ data }) => {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-         {/* Top Merchant Segments */}
+         {/* Top Merchant Segments - simplified line chart */}
          <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
-           <h4 className="text-lg font-semibold text-gray-900 mb-4">Top Merchant Segments by TPV</h4>
+           <h4 className="text-lg font-semibold text-gray-900 mb-2">Top Merchant Segments by TPV (Easy View)</h4>
+           <p className="text-sm text-gray-600 mb-4">Each dot is a segment. Higher dot = more money processed.</p>
            {!topSegments || topSegments.length === 0 ? (
              <div className="flex items-center justify-center h-64 text-gray-500">
                <div className="text-center">
@@ -142,17 +153,22 @@ const CustomerSentiments = ({ data }) => {
              </div>
            ) : (
              <ResponsiveContainer width="100%" height={300}>
-               <BarChart data={topSegments} layout="horizontal">
+               <LineChart data={[...topSegments].sort((a, b) => a.tpv - b.tpv)}>
                  <CartesianGrid strokeDasharray="3 3" />
-                 <XAxis type="number" tickFormatter={(value) => formatCurrency(value)} />
-                 <YAxis dataKey="name" type="category" width={100} />
+                 <XAxis dataKey="name" angle={-20} textAnchor="end" height={50} />
+                 <YAxis tickFormatter={(value) => formatCurrency(value)} />
                  <Tooltip formatter={(value) => formatCurrency(value)} />
-                 <Bar dataKey="tpv" radius={[0, 4, 4, 0]}>
-                   {topSegments.map((entry, index) => (
-                     <Cell key={`cell-${index}`} fill={segmentColors[index % segmentColors.length]} />
-                   ))}
-                 </Bar>
-               </BarChart>
+                 <Legend />
+                 <Line
+                   type="monotone"
+                   name="TPV"
+                   dataKey="tpv"
+                   stroke="#3b82f6"
+                   strokeWidth={3}
+                   dot={renderSegmentDot}
+                   activeDot={{ r: 7 }}
+                 />
+               </LineChart>
              </ResponsiveContainer>
            )}
          </div>

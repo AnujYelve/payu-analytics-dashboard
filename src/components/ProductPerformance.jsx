@@ -51,11 +51,53 @@ const ProductPerformance = ({ data }) => {
     value: value
   }));
 
+  // Normalize monthly data to include Nov on X-axis (if missing)
+  const orderedMonths = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const monthlyIndex = Object.fromEntries((monthlyData || []).map((m, i) => [m.month, i]));
+  const normalizedMonthly = orderedMonths.map(m => {
+    const idx = monthlyIndex[m];
+    const rec = idx !== undefined ? monthlyData[idx] : null;
+    return {
+      month: m,
+      tpv: rec?.tpv || 0,
+      revenue: rec?.revenue || 0,
+      transactions: rec?.transactions || 0
+    };
+  });
+
+  // Custom dot renderers for low-score coloring
+  const renderTPVDot = (props) => {
+    const { cx, cy, payload, index } = props;
+    const max = Math.max(...normalizedMonthly.map(m => m.tpv || 0), 0);
+    const low = (payload?.tpv || 0) < max * 0.2;
+    return (
+      <circle key={`tpv-dot-${index}`} cx={cx} cy={cy} r={5} strokeWidth={2} stroke="#ffffff" fill={low ? '#ef4444' : '#3b82f6'} />
+    );
+  };
+
+  const renderRevenueDot = (props) => {
+    const { cx, cy, payload, index } = props;
+    const max = Math.max(...normalizedMonthly.map(m => m.revenue || 0), 0);
+    const low = (payload?.revenue || 0) < max * 0.2;
+    return (
+      <circle key={`rev-dot-${index}`} cx={cx} cy={cy} r={5} strokeWidth={2} stroke="#ffffff" fill={low ? '#ef4444' : '#14b8a6'} />
+    );
+  };
+
   // Graph explanations for developers (console only)
-  console.log('[Chart Explainer] Monthly TPV Trend: Line chart over Jan–Dec. Each point = monthly TPV; Y-axis is currency; X-axis is month. Missing months rendered as 0 to keep a consistent 12-month timeline.');
-  console.log('[Chart Explainer] Payment Method Mix: Pie chart of payment method share. Labels show % inside slices; legend only shows methods >5%.');
-  console.log('[Chart Explainer] Revenue by Business Unit: Bar chart of total revenue per business unit; bars sorted by provided order.');
-  console.log('[Chart Explainer] Monthly Revenue Trend: Line chart of monthly revenue (2% fee proxy from TPV) over Jan–Dec; missing months as 0.');
+  console.log('[Chart Explainer] Monthly TPV Trend: Line chart over Jan–Dec. Each dot is a month; higher = more TPV. Nov is included even if 0 to keep 12 months.');
+  console.log('[Chart Explainer] Payment Method Mix: Pie chart of payment method share. Labels show names only.');
+  console.log('[Chart Explainer] Revenue by Business Unit: Bar chart of total revenue per business unit.');
+  console.log('[Chart Explainer] Monthly Revenue Trend: Line chart of monthly revenue over Jan–Dec; Nov included.');
+  // Metric formulas
+  console.log('[Formula] System Uptime (%) = ((TotalTime - Downtime) / TotalTime) * 100');
+  console.log('[Formula] Compliance Score (%) = (ChecksPassed / TotalChecks) * 100');
+  console.log('[Formula] API Response Time (ms) = avg(RequestEndTime - RequestStartTime)');
+  console.log('[Formula] Database Performance Score (unitless) = weightedAvg(1/AvgQueryTime, Throughput, CacheHitRatio)');
+  console.log('[Formula] Error Rate (%) = (ErrorRequests / TotalRequests) * 100');
+  console.log('[Formula] Peak Load Handling (RPS) = Max sustained RequestsPerSecond with ErrorRate < threshold');
+  console.log('[Formula] Merchant Churn Rate (%) = (LostMerchants / MerchantsAtStart) * 100');
+  console.log('[Formula] Activation Rate (%) = (ActiveMerchants / OnboardedMerchants) * 100');
 
   return (
     <div className="space-y-6">
@@ -174,7 +216,7 @@ const ProductPerformance = ({ data }) => {
              </div>
            ) : (
              <ResponsiveContainer width="100%" height={300}>
-               <LineChart data={monthlyData}>
+               <LineChart data={normalizedMonthly}>
                  <CartesianGrid strokeDasharray="3 3" />
                  <XAxis dataKey="month" />
                  <YAxis tickFormatter={(value) => formatCurrency(value)} />
@@ -184,7 +226,7 @@ const ProductPerformance = ({ data }) => {
                    dataKey="tpv" 
                    stroke="#3b82f6" 
                    strokeWidth={3}
-                   dot={{ fill: '#3b82f6', strokeWidth: 2, r: 4 }}
+                   dot={renderTPVDot}
                  />
                </LineChart>
              </ResponsiveContainer>
@@ -235,7 +277,7 @@ const ProductPerformance = ({ data }) => {
              </div>
            ) : (
              <ResponsiveContainer width="100%" height={300}>
-               <LineChart data={monthlyData}>
+               <LineChart data={normalizedMonthly}>
                  <CartesianGrid strokeDasharray="3 3" />
                  <XAxis dataKey="month" />
                  <YAxis tickFormatter={(value) => formatCurrency(value)} />
@@ -245,7 +287,7 @@ const ProductPerformance = ({ data }) => {
                    dataKey="revenue" 
                    stroke="#14b8a6" 
                    strokeWidth={3}
-                   dot={{ fill: '#14b8a6', strokeWidth: 2, r: 4 }}
+                   dot={renderRevenueDot}
                  />
                </LineChart>
              </ResponsiveContainer>
