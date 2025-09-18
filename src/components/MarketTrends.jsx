@@ -1,7 +1,7 @@
 import React from 'react';
 import { LineChart, Line, BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, RadialBarChart, RadialBar, Cell } from 'recharts';
 import KPICard from './KPICard';
-import { Shield, Clock, Server, CheckCircle, AlertTriangle, Activity } from 'lucide-react';
+import { Shield, Server, CheckCircle, AlertTriangle, Activity } from 'lucide-react';
 import { formatPercentage, formatNumber } from '../utils/dataParser';
 
 
@@ -11,7 +11,8 @@ import { formatPercentage, formatNumber } from '../utils/dataParser';
 
 
 const MarketTrends = ({ data }) => {
-  if (!data || !data.productPerformance) {
+  if (!data || !data.marketTrends) {
+    console.log("⚠️ No market trends data available - displaying empty state");
     return (
       <div className="text-center py-12">
         <div className="text-gray-500 text-lg mb-2">No data available</div>
@@ -21,16 +22,22 @@ const MarketTrends = ({ data }) => {
       </div>
     );
   }
-  if (!data) return null;
 
   const { marketTrends, monthlyData } = data;
-  const { fraudRate, disputeResolutionTime, systemUptime, complianceScore } = marketTrends;
+  const { fraudRate, systemUptime, complianceScore } = marketTrends;
+
+  console.log("📊 Rendering MarketTrends with data:", {
+    fraudRate: fraudRate,
+    // disputeResolutionTime removed
+    systemUptime: systemUptime,
+    complianceScore: complianceScore,
+    monthlyDataLength: monthlyData?.length || 0
+  });
 
   // Generate some additional market trend data
   const riskTrendData = monthlyData.map((item, index) => ({
     ...item,
     fraudRate: 0.12 + (Math.random() - 0.5) * 0.06,
-    disputeResolution: 2.8 + (Math.random() - 0.5) * 1.2,
     uptime: 99.8 + Math.random() * 0.4
   }));
 
@@ -50,6 +57,11 @@ const MarketTrends = ({ data }) => {
 
   const uptimeData = [{ name: 'Uptime', value: systemUptime, fill: '#10b981' }];
 
+  // Graph explanations for developers (console only)
+  console.log('[Chart Explainer] Fraud Rate Trend: Line chart; each point = (fraud cases / total transactions that month) × 100. Y-axis in %. Missing months as 0%.');
+  console.log('[Chart Explainer] System Uptime: Radial gauge showing monthly uptime %; center label shows formatted % value.');
+  console.log('[Chart Explainer] Compliance Scores by Category: Bar chart; each bar = compliance % for category, Y-axis domain 95–100%.');
+
   return (
     <div className="space-y-6">
       {/* Risk & Compliance KPIs */}
@@ -65,15 +77,7 @@ const MarketTrends = ({ data }) => {
             trend="down"
             trendValue="-0.02%"
           />
-          <KPICard
-            title="Dispute Resolution Time"
-            value={`${disputeResolutionTime} days`}
-            subtitle="Average resolution"
-            icon={Clock}
-            color="orange"
-            trend="down"
-            trendValue="-0.5 days"
-          />
+          {/* Dispute Resolution Time removed */}
           <KPICard
             title="System Uptime"
             value={formatPercentage(systemUptime)}
@@ -164,25 +168,7 @@ const MarketTrends = ({ data }) => {
           </ResponsiveContainer>
         </div>
 
-        {/* Dispute Resolution Trend */}
-        <div className="chart-container">
-          <h4 className="text-lg font-semibold text-gray-900 mb-4">Dispute Resolution Time Trend</h4>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={riskTrendData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis tickFormatter={(value) => `${value.toFixed(1)} days`} />
-              <Tooltip formatter={(value) => `${value.toFixed(1)} days`} />
-              <Line 
-                type="monotone" 
-                dataKey="disputeResolution" 
-                stroke="#f59e0b" 
-                strokeWidth={3}
-                dot={{ fill: '#f59e0b', strokeWidth: 2, r: 4 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+        {/* Dispute Resolution Trend removed */}
 
         {/* Compliance Scores */}
         <div className="chart-container">

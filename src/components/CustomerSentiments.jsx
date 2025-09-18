@@ -8,23 +8,29 @@ import { formatCurrency, formatPercentage, formatNumber } from '../utils/dataPar
 
 
 const CustomerSentiments = ({ data }) => {
-
-  
-if (!data || !data.productPerformance) {
-  return (
-    <div className="text-center py-12">
-      <div className="text-gray-500 text-lg mb-2">No data available</div>
-      <div className="text-gray-400 text-sm">
-        Please upload a valid Excel file with the required columns
+  if (!data || !data.customerSentiments) {
+    console.log("⚠️ No customer sentiments data available - displaying empty state");
+    return (
+      <div className="text-center py-12">
+        <div className="text-gray-500 text-lg mb-2">No data available</div>
+        <div className="text-gray-400 text-sm">
+          Please upload a valid Excel file with the required columns
+        </div>
       </div>
-    </div>
-  );
-}
-
-  if (!data) return null;
+    );
+  }
 
   const { customerSentiments, monthlyData } = data;
   const { merchants, topSegments, customerRetention, nps, sentimentScore } = customerSentiments;
+
+  console.log("📊 Rendering CustomerSentiments with data:", {
+    merchants: merchants,
+    topSegments: topSegments,
+    customerRetention: customerRetention,
+    nps: nps,
+    sentimentScore: sentimentScore,
+    monthlyDataLength: monthlyData?.length || 0
+  });
 
   const npsData = [
     { name: 'NPS Score', value: nps, fill: '#10b981' }
@@ -35,6 +41,12 @@ if (!data || !data.productPerformance) {
   ];
 
   const segmentColors = ['#3b82f6', '#14b8a6', '#f59e0b', '#ef4444', '#8b5cf6'];
+
+  // Graph explanations for developers (console only)
+  console.log('[Chart Explainer] Top Merchant Segments by TPV: Horizontal bar chart; each bar = TPV per segment; tooltip shows currency.');
+  console.log('[Chart Explainer] Net Promoter Score: Radial gauge; center label shows NPS (from -100 to 100).');
+  console.log('[Chart Explainer] Customer Sentiment Score: Radial gauge; center shows sentiment out of 5 converted to % radius.');
+  console.log('[Chart Explainer] Monthly Transaction Volume: Line chart; Y-axis counts transactions, X-axis months; missing months as 0.');
 
   return (
     <div className="space-y-6">
@@ -117,23 +129,33 @@ if (!data || !data.productPerformance) {
 
       {/* Charts */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Top Merchant Segments */}
-        <div className="chart-container">
-          <h4 className="text-lg font-semibold text-gray-900 mb-4">Top Merchant Segments by TPV</h4>
-          <ResponsiveContainer width="100%" height={300}>
-            <BarChart data={topSegments} layout="horizontal">
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis type="number" tickFormatter={(value) => formatCurrency(value)} />
-              <YAxis dataKey="name" type="category" width={80} />
-              <Tooltip formatter={(value) => formatCurrency(value)} />
-              <Bar dataKey="tpv" radius={[0, 4, 4, 0]}>
-                {topSegments.map((entry, index) => (
-                  <Cell key={`cell-${index}`} fill={segmentColors[index % segmentColors.length]} />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </div>
+         {/* Top Merchant Segments */}
+         <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
+           <h4 className="text-lg font-semibold text-gray-900 mb-4">Top Merchant Segments by TPV</h4>
+           {!topSegments || topSegments.length === 0 ? (
+             <div className="flex items-center justify-center h-64 text-gray-500">
+               <div className="text-center">
+                 <div className="text-4xl mb-2">📊</div>
+                 <p>No merchant segment data available</p>
+                 <p className="text-sm text-gray-400">Upload a file with merchant categories</p>
+               </div>
+             </div>
+           ) : (
+             <ResponsiveContainer width="100%" height={300}>
+               <BarChart data={topSegments} layout="horizontal">
+                 <CartesianGrid strokeDasharray="3 3" />
+                 <XAxis type="number" tickFormatter={(value) => formatCurrency(value)} />
+                 <YAxis dataKey="name" type="category" width={100} />
+                 <Tooltip formatter={(value) => formatCurrency(value)} />
+                 <Bar dataKey="tpv" radius={[0, 4, 4, 0]}>
+                   {topSegments.map((entry, index) => (
+                     <Cell key={`cell-${index}`} fill={segmentColors[index % segmentColors.length]} />
+                   ))}
+                 </Bar>
+               </BarChart>
+             </ResponsiveContainer>
+           )}
+         </div>
 
         {/* NPS Score Gauge */}
         <div className="chart-container">
@@ -175,25 +197,35 @@ if (!data || !data.productPerformance) {
           </ResponsiveContainer>
         </div>
 
-        {/* Monthly Transaction Volume */}
-        <div className="chart-container">
-          <h4 className="text-lg font-semibold text-gray-900 mb-4">Monthly Transaction Volume</h4>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={monthlyData}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="month" />
-              <YAxis tickFormatter={(value) => formatNumber(value)} />
-              <Tooltip formatter={(value) => formatNumber(value)} />
-              <Line 
-                type="monotone" 
-                dataKey="transactions" 
-                stroke="#8b5cf6" 
-                strokeWidth={3}
-                dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 4 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-        </div>
+         {/* Monthly Transaction Volume */}
+         <div className="bg-white rounded-2xl shadow-md p-6 border border-gray-100">
+           <h4 className="text-lg font-semibold text-gray-900 mb-4">Monthly Transaction Volume</h4>
+           {!monthlyData || monthlyData.length === 0 ? (
+             <div className="flex items-center justify-center h-64 text-gray-500">
+               <div className="text-center">
+                 <div className="text-4xl mb-2">📈</div>
+                 <p>No monthly transaction data available</p>
+                 <p className="text-sm text-gray-400">Upload a file with date/timestamp data</p>
+               </div>
+             </div>
+           ) : (
+             <ResponsiveContainer width="100%" height={300}>
+               <LineChart data={monthlyData}>
+                 <CartesianGrid strokeDasharray="3 3" />
+                 <XAxis dataKey="month" />
+                 <YAxis tickFormatter={(value) => formatNumber(value)} />
+                 <Tooltip formatter={(value) => formatNumber(value)} />
+                 <Line 
+                   type="monotone" 
+                   dataKey="transactions" 
+                   stroke="#8b5cf6" 
+                   strokeWidth={3}
+                   dot={{ fill: '#8b5cf6', strokeWidth: 2, r: 4 }}
+                 />
+               </LineChart>
+             </ResponsiveContainer>
+           )}
+         </div>
       </div>
 
       {/* Merchant Segment Details */}

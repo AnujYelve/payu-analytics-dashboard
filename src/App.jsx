@@ -10,26 +10,35 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
 
   const handleFileUpload = async (file) => {
+    console.log("🔄 NEW FILE UPLOADED - Resetting dashboard state");
     setIsLoading(true);
+    
+    // Reset dashboard state completely
+    setDashboardData(null);
     setUploadedFile(file);
+    
     try {
       const parsedData = await parseFile(file);
-      console.log("Raw Excel Data:", parsedData);
+      console.log("📊 Raw Excel Data:", parsedData);
       const processedData = processExcelData(parsedData);
-      console.log("Calculated KPIs:", processedData);
+      console.log("🎯 Calculated KPIs:", processedData);
       setDashboardData(processedData);
     } catch (error) {
-      console.error("Error parsing file:", error);
+      console.error("❌ Error parsing file:", error);
       alert("Error parsing file. Please check the format and try again.");
       setUploadedFile(null);
+      setDashboardData(null);
     } finally {
       setIsLoading(false);
     }
   };
 
   const handleClearFile = () => {
+    console.log("🗑️ CLEARING FILE - Resetting all dashboard data");
     setUploadedFile(null);
     setDashboardData(null);
+    // Force a complete re-render by resetting active tab
+    setActiveTab('product-performance');
   };
 
   const handleTabChange = (tabId) => {
